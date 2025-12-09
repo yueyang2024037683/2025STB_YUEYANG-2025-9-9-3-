@@ -61,7 +61,6 @@ mental$area<-as.character(mental$area)
 table(mental$sex)
 table(mental$age)
 table(mental$area)
-
 mental$age<-ifelse(mental$age=="19~29세","20대",mental$age)
 table(mental$age)
 
@@ -136,7 +135,7 @@ mental%>%
   arrange(desc(m))
 
 #.지역별 삶의 만족도 분석과 그래프 작성
-area_satisfaction <-mental%>%
+mental%>% 
   group_by(area) %>%
   summarise(m=mean(satisfaction)) %>%
   arrange(desc(m))
@@ -147,3 +146,71 @@ ggplot(data=area_satisfaction, aes(x=reorder(area,m),y=m))+
   xlab("지역")+
   ylab("만족도")+
   coord_flip()
+
+1.
+library(ggplot2)
+
+mental %>%
+  group_by(age, sex) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  ggplot(aes(x = age, y = m, color = sex, group = sex)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  labs(
+    title = "연령대 × 성별 삶의 만족도 평균",
+    x = "연령대",
+    y = "만족도 평균"
+  )
+top5
+top5 <-mental %>%
+  group_by(age, sex) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  arrange(age, desc(m))%>%
+  slice_head(n=5)
+//
+  top5
+top5 <-mental %>%
+  group_by(age, sex) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  arrange(age, desc(m))
+  head(4)
+
+
+2.
+library(ggplot2)
+
+mental %>%
+  group_by(area, sex, age) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  ggplot(aes(x = age, y = m, color = sex, group = sex)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  facet_wrap(~ area, ncol = 4) +
+  labs(
+    title = "지역 × 성별 × 연령대의 삶의 만족도 평균",
+    x = "연령대",
+    y = "만족도 평균"
+  )
+3.
+top5 <- mental %>%
+  group_by(area, sex, age) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  arrange(desc(m)) %>%
+  slice_head(n = 5)
+
+top5
+top5 <- mental %>%
+  group_by(area, sex, age) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  arrange(desc(m)) %>%
+  slice_head(n = 5)
+
+top5
+1.
+top5
+top5 <-mental %>%
+  group_by(age, sex) %>%
+  summarise(m = mean(satisfaction), .groups = "drop") %>%
+  arrange(age, desc(m))%>%
+  slice_head(n=5)
+
