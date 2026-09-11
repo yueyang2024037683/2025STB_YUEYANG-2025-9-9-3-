@@ -186,7 +186,7 @@ for (i in 1:Nt) {
     pch = 16,
     cex = 2
   )
-
+ 
   # 一次性刷新这一帧
   dev.flush()
   
